@@ -1,41 +1,20 @@
-#include <string> 
-#include <regex> 
-#include <iostream> 
-#include <iomanip> 
+#include "RandomPoints.h"
 
-int main()
-{
-    std::string data = "XML tag: <tag-name>the value</tag-name>.";
-    std::cout << "Data: " << data << "\n\n";
+int main() {
 
-    std::smatch m; // для возвращаемой информации о соответствии
-    bool found = std::regex_search(data, m, std::regex("<(.*)>(.*)</\\1>"));
+  int n, m, l; // n-количество необязательных точек;
+               // m-количество обязательных точек;
+               // l-размер квадрата [0,l]*[0,l], в котором распределны точки
 
-    // вывод данных соответствий
-    std::cout << "m.empty(): " << std::boolalpha << m.empty() << std::endl;
-    std::cout << "m.size(): " << m.size() << std::endl;
+  std::cin >> n >> m >> l;
 
-    if (found) {
-        std::cout << "m.str(): " << m.str() << std::endl;
-        std::cout << "m.length(): " << m.length() << std::endl;
-        std::cout << "m.position(): " << m.position() << std::endl;
-        std::cout << "m.prefix().str(): " << m.prefix().str() << std::endl;
-        std::cout << "m.suffix().str(): " << m.suffix().str() << std::endl;
+  assert(std::cin.good());
 
-        // перебор всех соответствий с помощью индекса соответствия
-        for (int i = 0; i < m.size(); ++i) {
-            std::cout << "m[" << i << "]: " << m[i].str() << std::endl;
-            std::cout << "m.str(" << i << "): " << m.str(i) << std::endl;
-            std::cout << "m.position(" << i << "): " << m.position(i) << std::endl;
-        }
+  std::set<Point, cmp> pointSet = randomPoints::GenerateRandomPoints(n,l);//генерация точек, которые требуется покрыть
+  std::set<Point, cmp> centerSet = randomPoints::GenerateRandomPoints(m,l);//генерация центров
 
-        // перебор всех соответствий с помощью итератора
-        std::cout << "Matches: " << std::endl;
-        for (auto pos = m.begin(); pos != m.end(); ++pos) {
-            std::cout << "match: " << *pos << std::endl;
-            std::cout << "length: " << pos->length() << std::endl;
-        }
-    }
+  for (auto elem : pointSet)
+    std::cout << elem << std::endl;
 
-    return 0;
+  return 0;
 }
