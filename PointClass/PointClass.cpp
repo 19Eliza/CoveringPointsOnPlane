@@ -1,4 +1,4 @@
-#include"Class.h"
+#include"PointClass.h"
 
 
 //Class Point
@@ -44,16 +44,3 @@ std::istream& operator>>(std::istream& is, Point& p) {
 	is >> p.x >> p.y;
 	return is;
 }
-
-
-//Class Disk
-
-// Disk::Disk() :center(0, 0), radius(1) {};
-
-// Disk::Disk(double x, double y, double r = 1.0) :center(x, y), radius(r) {};
-
-// Disk::Disk(const Point& p, double r = 1.0) :center(p), radius(r) {};
-
-// double Disk::Dist(const Disk& d)const {
-// 	return center.Dist(d.center);
-// };

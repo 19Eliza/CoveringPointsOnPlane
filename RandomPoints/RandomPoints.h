@@ -1,4 +1,4 @@
-#include "Class.h"
+#include "PointClass.h"
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
@@ -7,7 +7,7 @@
 #include <set>
 
 namespace randomPoints {
-std::set<Point, cmp> GenerateRandomPoints(int n, int m, int l);
+std::set<Point, cmp> GenerateRandomPoints(int n, int l);//generate n random points in square [0,l]*[0,l]
 }
 
 // Point generateRandomPoint(double l) {

@@ -8,7 +8,7 @@ std::set<Point, cmp> GenerateRandomPoints(int n, int l) {
 
   std::set<Point, cmp> pointSet;
 
-  int N = n + m;
+  int N = n ;
 
   while (pointSet.size() != N) {
     pointSet.insert({dis(gen), dis(gen)});
