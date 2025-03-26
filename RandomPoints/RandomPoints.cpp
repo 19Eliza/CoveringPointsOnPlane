@@ -14,6 +14,7 @@ std::set<Point, cmp> GenerateRandomPoints(int n, int l) {
     pointSet.insert({dis(gen), dis(gen)});
   }
 
+  std::cout<<"Hello VSCode!\n";
   return pointSet;
 }
 } // namespace randomPoints
