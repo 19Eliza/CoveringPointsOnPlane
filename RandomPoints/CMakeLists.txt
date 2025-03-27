@@ -1,17 +1,13 @@
 cmake_minimum_required(VERSION 3.22)
 project(RandomPoints)
 
-#set(POINT_DIR /root/projects/CoveringPointOnPlane/PointClass/)
+file(GLOB PROJECT_SRC "*.h" "*.cpp")
+
+add_executable(${PROJECT_NAME} ${PROJECT_SRC})
 
 set(POINTCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../PointClass)
 
 include_directories(${POINTCLASS_DIR})
-
-file(GLOB PROJECT_SRC "*.h" "*.cpp")
-
-#file(GLOB POINT_SRC "${POINT_DIR}/PointClass.h" "${POINT_DIR}/PointClass.cpp")
-
-add_executable(${PROJECT_NAME} ${PROJECT_SRC}) #${POINT_SRC})
 
 find_library(POINTCLASS_LIB NAMES PointClass PATHS ${POINTCLASS_DIR}/build)
 
@@ -22,4 +18,5 @@ else()
     message(FATAL_ERROR "PointClass library not found! Make sure to build it first.")
 endif()
 
-#target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${POINT_DIR})
+add_library(RandomPointsLib STATIC RandomPoints.cpp)
+target_include_directories(RandomPointsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
