@@ -1,24 +1,9 @@
 #include "ConvexHall.h"
 
-namespace convexull {
+namespace convexHull {
 
-bool cmp(Point p1, Point p2) {
 
-  if (p1.SetX() < p2.SetX()) {
-    return true;
-  }
-  if (p1.SetX() > p2.SetX()) {
-    return false;
-  }
-  if (p1.SetX() == p2.SetX() && p1.SetY() < p2.SetY()) {
-    return true;
-  }
-  if (p1.SetX() == p2.SetX() && p1.SetY() > p2.SetY()) {
-    return false;
-  }
-}
-
-bool Left_Rotation(Point p1, Point p2, Point p3) {
+bool LeftRotation(Point p1, Point p2, Point p3) {
 
   double u_x = p2.SetX() - p1.SetX();
   double u_y = p2.SetY() - p1.SetY();
@@ -32,9 +17,15 @@ bool Left_Rotation(Point p1, Point p2, Point p3) {
   }
 }
 
-std::vector<Point> Convex_Hull(std::vector<Point> &p) {
-  sort(p.begin(), p.end(), cmp);
+std::vector<Point> ConvexHull(std::vector<Point> &p) {
+
+  sort(p.begin(), p.end(),cmp());
   std::vector<Point> L_upper;
+
+  if(p.size()==1){
+    L_upper.push_back(p[0]);
+    return L_upper;
+  }
 
   int n = p.size();
 
@@ -47,7 +38,7 @@ std::vector<Point> Convex_Hull(std::vector<Point> &p) {
     L_upper.push_back(p[i]);
 
     while (L_upper.size() > 2 &&
-           Left_Rotation(*(L_upper.end() - 3), *(L_upper.end() - 2),
+           LeftRotation(*(L_upper.end() - 3), *(L_upper.end() - 2),
                          *(L_upper.end() - 1))) {
       L_upper.erase(L_upper.end() - 2);
     }
@@ -62,7 +53,7 @@ std::vector<Point> Convex_Hull(std::vector<Point> &p) {
     L_lower.push_back(p[i]);
 
     while (L_lower.size() > 2 &&
-           Left_Rotation(*(L_lower.end() - 3), *(L_lower.end() - 2),
+           LeftRotation(*(L_lower.end() - 3), *(L_lower.end() - 2),
                          *(L_lower.end() - 1))) {
       L_lower.erase(L_lower.end() - 2);
     }

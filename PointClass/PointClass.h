@@ -4,7 +4,6 @@
 #include<string>
 #include<cmath>
 
-
 //class Point
 
 class Point{

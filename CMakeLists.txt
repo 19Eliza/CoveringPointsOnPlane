@@ -5,13 +5,14 @@ add_subdirectory(PointClass)
 #add_subdirectory(GreedyAlgorithm)
 add_subdirectory(RandomPoints)
 add_subdirectory(Clusters)
+add_subdirectory(ConvexHall)
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PointClass)
 target_link_libraries(${CMAKE_PROJECT_NAME} RandomPointsLib)
 target_link_libraries(${CMAKE_PROJECT_NAME} ClustersLib)
-
+target_link_libraries(${CMAKE_PROJECT_NAME} ConvexHallLib)
 
 
 
