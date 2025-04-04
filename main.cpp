@@ -1,26 +1,28 @@
-#include"PointClass.h"
-#include"RandomPoints.h"
-#include"GenerateClusters.h"
-#include"ConvexHall.h"
-#include<iostream>
+#include "GeometryObjectsClass.h"
+#include "RandomPoints.h"
+#include "ConvexHall.h"
+#include "GenerateClusters.h"
+#include <iostream>
 
-int main(){
-    Point p{1,2};
-    std::cout<<p<<std::endl;
-    auto [optional, mandatory] = clusters::GenerateClusters();
-    std::cout<<"Size of optional set points: "<<optional.size()<<std::endl;
+int main() {
 
-    auto m=mandatory.size();
-    std::vector<PointVector> ConvexHallMandatoryPoint(m);
-    int j=0;
-    for(auto i=0;i<m;i++){
-            if(!mandatory[i].empty()){
-                //std::cout<<"Size of mandatory set points: "<<mandatory[i].size()<<std::endl;
-                ConvexHallMandatoryPoint.at(i)=convexHull::ConvexHull(mandatory[i]);
-                //if(!ConvexHallMandatoryPoint.at(i).empty()) std::cout<<"Size of Convex Hull: "<<ConvexHallMandatoryPoint[i].size()<<std::endl;
-                j++;
-        }
+  auto [optional, mandatory] = clusters::GenerateClusters();//Set of optional points, vector of PointVec of mandatory points
+  std::cout << "Count of optional set points: " << optional.size() << std::endl;
+
+  auto m = mandatory.size();
+  // std::cout << "m: " << m<< std::endl;
+
+  std::vector<PointVector> ConvexHullMandatoryPoint(m);
+  int j = 0;
+  for (auto i = 0; i < m; i++) {
+    if (!mandatory[i].empty()) {
+      ConvexHullMandatoryPoint.at(i) = convexHull::ConvexHull(mandatory[i]);
+      j++;
     }
-    std::cout<<"Size of mandatory set points: "<<j<<std::endl;
-    return 0;
+  }
+  std::cout << "Clusters count of mandatory points: " << m << std::endl;
+
+  std::vector<PointVector> I=clusters::Position(optional,ConvexHullMandatoryPoint);
+  
+  return 0;
 }

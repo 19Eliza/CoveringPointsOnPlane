@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PointClass.h"
+#include "GeometryObjectsClass.h"
 #include <algorithm>
 #include <vector>
 

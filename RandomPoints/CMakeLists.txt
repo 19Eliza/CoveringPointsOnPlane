@@ -5,18 +5,19 @@ file(GLOB PROJECT_SRC "*.h" "*.cpp")
 
 add_executable(${PROJECT_NAME} ${PROJECT_SRC})
 
-set(POINTCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../PointClass)
+set(GEOMETRYOBJECTSCLASS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../GeometryObjectsClass)
 
-include_directories(${POINTCLASS_DIR})
+include_directories(${GEOMETRYOBJECTSCLASS_DIR})
 
-find_library(POINTCLASS_LIB NAMES PointClass PATHS ${POINTCLASS_DIR}/build)
+find_library(GEOMETRYOBJECTSCLASS_LIB NAMES GeometryObjectsClassLib PATHS ${GEOMETRYOBJECTSCLASS_DIR}/build)
 
-if(POINTCLASS_LIB)
-    message(STATUS "PointClass library found at: ${POINTCLASS_LIB}")
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${POINTCLASS_LIB})
+if(GEOMETRYOBJECTSCLASS_LIB)
+    message(STATUS "GeometryObjectsClass library found at: ${GEOMETRYOBJECTSCLASS_LIB}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${GEOMETRYOBJECTSCLASS_LIB})
 else()
-    message(FATAL_ERROR "PointClass library not found! Make sure to build it first.")
+    message(FATAL_ERROR "GeometryObjectsClass library not found! Make sure to build it first.")
 endif()
 
 add_library(RandomPointsLib STATIC RandomPoints.cpp)
 target_include_directories(RandomPointsLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(RandomPointsLib PUBLIC ${GEOMETRYOBJECTSCLASS_DIR})

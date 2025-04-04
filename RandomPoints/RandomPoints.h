@@ -1,4 +1,4 @@
-#include "PointClass.h"
+#include "GeometryObjectsClass.h"
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
