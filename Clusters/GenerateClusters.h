@@ -6,8 +6,6 @@
 #include <set>
 #include <vector>
 
-
-
 namespace clusters {
 
 std::pair<PointSet, std::vector<PointVector>> GenerateClusters();

@@ -34,6 +34,10 @@ public:
   bool operator==(const Point& p)const;
   bool operator!=(const Point& p)const;
 
+  bool operator<(const Point& other) const {
+    return (x < other.x) || (x == other.x && y < other.y);
+}
+
   friend std::ostream &operator<<(std::ostream &os, const Point &p);
   friend std::istream &operator>>(std::istream &is, Point &p);
 };
@@ -58,6 +62,7 @@ public:
 
 using PointSet = std::set<Point, cmp>;
 using PointVector = std::vector<Point>;
+using pairPointPoint= std::pair<Point,Point>;
 
 
 //class Disk
