@@ -99,7 +99,10 @@ std::vector<PointVector> Position(const PointSet &optional,
                                   const std::vector<PointVector> &convexHull_) {
   int m = convexHull_.size();
 
+ 
   std::vector<PointVector> Pi(m);
+  
+
   std::map<Point, std::map<Point, PointSet,cmp>,cmp> IntersectionPoints;
 
   for (auto iter_pt = optional.begin(), end_eter_pt = optional.end();

@@ -2,6 +2,7 @@
 #include "RandomPoints.h"
 #include "ConvexHall.h"
 #include "GenerateClusters.h"
+#include "CoverAlgorithm.h"
 #include <iostream>
 #include <fstream>
 
@@ -40,14 +41,19 @@ int main() {
   }
   std::cout << "Clusters count of mandatory points: " << m << std::endl;
 
+  if(!optional.empty()){
   std::vector<PointVector> I=clusters::Position(optional,ConvexHullMandatoryPoint);
   
   j=1;
-  for(auto el1:I){
-    std::cout<<"Position cluster "<<j<<std::endl;
-    for(auto el2:el1)std::cout<<el2<<std::endl;
-    ++j;
-  }
+  // for(auto el1:I){
+  //   std::cout<<"Position cluster "<<j<<std::endl;
+  //   for(auto el2:el1)std::cout<<el2<<std::endl;
+  //   ++j;
+  // }
+  std::cout<<"End Position\n";
+  auto [optimalCountCoveredPoints,optimalPositionDisks]=coverAlgorithm::GreedyAlgorithm(optional,I);
+  std::cout<<optimalCountCoveredPoints<<std::endl;
+}
   
   return 0;
 }

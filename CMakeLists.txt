@@ -8,12 +8,12 @@ add_subdirectory(GeometryObjectsClass)
 add_subdirectory(RandomPoints)
 add_subdirectory(ConvexHall)
 add_subdirectory(Clusters)
+add_subdirectory(CoverAlgorithm)
 
 add_executable(${CMAKE_PROJECT_NAME} main.cpp)
 
-target_link_libraries(CoverProblem PRIVATE ClustersLib ConvexHallLib RandomPointsLib GeometryObjectsClassLib)
-#target_link_libraries(${CMAKE_PROJECT_NAME} ConvexHallLib)
-#target_link_libraries(${CMAKE_PROJECT_NAME} ClustersLib)
+target_link_libraries(CoverProblem PRIVATE GreedyAlgorithmLib ClustersLib ConvexHallLib RandomPointsLib GeometryObjectsClassLib)
+
 
 
 
