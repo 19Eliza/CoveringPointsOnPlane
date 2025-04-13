@@ -57,11 +57,43 @@ coveredPoints(PointSet pointSet, PointSet centerSet) {
   } else
     end = mandatory_.end();
 
-  std::vector<PointVector> mandatory(beg, end);
+  std::vector<PointVector> mandatoryAll(beg, end);
+
+  std::vector<PointVector> mandatory(mandatoryAll.size());
 
   optional = pointSet;
 
+  for(int i=0;i<mandatory.size();++i){
+    auto [resultMandatoryCluster,RemainingPoints]=ChooseRandomCountPoints(mandatoryAll[i]);
+    mandatory[i]=resultMandatoryCluster;
+    for(auto pt:RemainingPoints)optional.insert(pt);
+  }
+
+
   return {optional, mandatory};
+}
+
+std::pair<PointVector,PointVector> ChooseRandomCountPoints(PointVector mandatoryCluster){
+
+  auto Q=mandatoryCluster.size();
+  std::random_device rd;  
+  std::mt19937 gen(rd()); 
+  std::uniform_int_distribution<> distrib(1, Q); 
+
+  int q= distrib(gen);
+
+  std::shuffle(mandatoryCluster.begin(), mandatoryCluster.end(), gen);
+
+  PointVector resultMandatoryCluster;
+  for (int i = 0; i < q; ++i)
+      resultMandatoryCluster.push_back(mandatoryCluster[i]);
+
+
+  PointVector RemainingPoints;
+  for (int i = q; i < Q; ++i)
+      RemainingPoints.push_back(mandatoryCluster[i]);
+  
+  return {resultMandatoryCluster,RemainingPoints};
 }
 
 bool PointIsBelongIntersectionDisks(const Point &pt,
@@ -171,9 +203,9 @@ std::vector<PointVector> Position(const PointSet &optional,
 
     }
     
-    std::sort(Pi[i].begin(), Pi[i].end()); // сортировка
-    auto last = std::unique(Pi[i].begin(), Pi[i].end()); // удаление дубликатов
-    Pi[i].erase(last, Pi[i].end()); // обрезка
+    std::sort(Pi[i].begin(), Pi[i].end()); 
+    auto last = std::unique(Pi[i].begin(), Pi[i].end()); 
+    Pi[i].erase(last, Pi[i].end());
 
   }
     
