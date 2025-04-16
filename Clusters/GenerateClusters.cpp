@@ -3,11 +3,12 @@
 namespace clusters {
 
 std::pair<PointSet, std::vector<PointVector>> GenerateClusters() {
-  int n, m, l; // n-количество необязательных точек;
-               // m-количество обязательных точек;
+
+  int n, m, l; // n-общее количество точек;
+               // m-количество обязательных кластеров;
                // l-размер квадрата [0,l]*[0,l], в котором распределны точки
 
-  std::cout << "\nEnter count of optional points (n), count disk center for "
+  std::cout << "\nEnter total count of points (N), count disk center for "
                "mandatory clusters"
                "points (m), size of square (l):\n";
   std::cin >> n >> m >> l;
@@ -23,11 +24,10 @@ std::pair<PointSet, std::vector<PointVector>> GenerateClusters() {
 
 std::pair<PointSet, PointSet> GeneratePointsInSquare(int n, int m, int l) {
 
-  PointSet pointSet = randomPoints::GenerateRandomPoints(
-      n, l); //генерация точек, которые требуется покрыть
-  PointSet centerSet =
-      randomPoints::GenerateRandomPoints(m, l); //генерация центров
+  PointSet centerSet = randomPoints::GenerateRandomPointsAtOneDistance(m, l); //генерация центров
 
+  PointSet pointSet = randomPoints::GenerateRandomPoints(n-m, l); //генерация точек, которые требуется покрыть
+ 
   return {pointSet, centerSet};
 }
 
@@ -35,52 +35,52 @@ std::pair<PointSet, std::vector<PointVector>>
 coveredPoints(PointSet pointSet, PointSet centerSet) {
 
   std::size_t m = centerSet.size();
-  std::vector<PointVector> mandatory_(m);
+
+  std::vector<PointVector> mandatoryAll(m);
+
   PointSet optional;
 
   std::size_t i = 0;
+
   for (auto center : centerSet) {
     for (auto point = pointSet.begin(); point != pointSet.end();) {
       if (center.Dist(*point) <= 1.0) {
-        mandatory_[i].push_back(*point);
+        mandatoryAll[i].push_back(*point);
         point = pointSet.erase(point);
       } else
         point++;
     }
-    if (!mandatory_[i].empty())
-      ++i;
+    ++i;
   }
-  auto beg = mandatory_.begin();
-  std::vector<PointVector>::iterator end;
-  if (i < m) {
-    end = static_cast<std::vector<PointVector>::iterator>(&mandatory_[i]);
-  } else
-    end = mandatory_.end();
 
-  std::vector<PointVector> mandatoryAll(beg, end);
-
-  std::vector<PointVector> mandatory(mandatoryAll.size());
+  std::vector<PointVector> mandatory(m);
 
   optional = pointSet;
 
-  for(int i=0;i<mandatory.size();++i){
-    auto [resultMandatoryCluster,RemainingPoints]=ChooseRandomCountPoints(mandatoryAll[i]);
-    mandatory[i]=resultMandatoryCluster;
-    for(auto pt:RemainingPoints)optional.insert(pt);
+  for(int i=0;i<m;++i){
+    if(!mandatoryAll[i].empty()){
+      auto [resultMandatoryCluster,RemainingPoints]=ChooseRandomCountPoints(mandatoryAll[i]);
+      mandatory[i]=resultMandatoryCluster;
+      for(auto pt:RemainingPoints)optional.insert(pt);
+    }
   }
 
+  auto iter=centerSet.begin();
+  for(int i=0;i<mandatory.size() && iter!=centerSet.end();++iter,++i)
+    mandatory[i].push_back(*iter);
 
   return {optional, mandatory};
 }
 
 std::pair<PointVector,PointVector> ChooseRandomCountPoints(PointVector mandatoryCluster){
 
-  auto Q=mandatoryCluster.size();
+  auto countAllPoints=mandatoryCluster.size();
+  auto Q=countAllPoints-1;
   std::random_device rd;  
   std::mt19937 gen(rd()); 
-  std::uniform_int_distribution<> distrib(1, Q); 
+  std::uniform_int_distribution<> distrib(0, Q); 
 
-  int q= distrib(gen);
+  int q = distrib(gen);
 
   std::shuffle(mandatoryCluster.begin(), mandatoryCluster.end(), gen);
 
@@ -88,9 +88,8 @@ std::pair<PointVector,PointVector> ChooseRandomCountPoints(PointVector mandatory
   for (int i = 0; i < q; ++i)
       resultMandatoryCluster.push_back(mandatoryCluster[i]);
 
-
   PointVector RemainingPoints;
-  for (int i = q; i < Q; ++i)
+  for (int i = q; i < countAllPoints; ++i)
       RemainingPoints.push_back(mandatoryCluster[i]);
   
   return {resultMandatoryCluster,RemainingPoints};

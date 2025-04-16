@@ -8,6 +8,8 @@
 
 namespace randomPoints {
 std::set<Point, cmp> GenerateRandomPoints(int n, int l);//generate n random points in square [0,l]*[0,l]
+
+std::set<Point, cmp> GenerateRandomPointsAtOneDistance(int n, int l);//generate n random points in square [0,l]*[0,l]
 }
 
 // Point generateRandomPoint(double l) {
