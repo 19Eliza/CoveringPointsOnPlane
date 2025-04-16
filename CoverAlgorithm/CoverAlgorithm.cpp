@@ -63,12 +63,13 @@ GreedyAlgorithm(const PointSet& optional_, const std::vector<PointVector> &I) {
 
   while (!position.empty() && !optional.empty() ) {
     //std::cout<<"1\n";
-    auto prevSumCoveredPoints=sumCoveredPoints;
+    auto prevSumCoveredPoints = sumCoveredPoints;
     auto [pairIndClusterPosition, pairCountOptional] =
         CoveredMaxPoint(optional, position);
 
     auto indexCluster = pairIndClusterPosition.first;
     auto optimalPosition = pairIndClusterPosition.second;
+
     auto maxCount = pairCountOptional.first;
     auto coveredOptional = pairCountOptional.second;
 
@@ -81,6 +82,10 @@ GreedyAlgorithm(const PointSet& optional_, const std::vector<PointVector> &I) {
       optional.erase(pt);
 
     optimalPositionDisk.insert({indexCluster, optimalPosition});
+  }
+
+  for(std::size_t i=0;i<position.size();++i){
+    if(optimalPositionDisk.find(i)== optimalPositionDisk.end())optimalPositionDisk[i]=position[i][0];
   }
 
   return {sumCoveredPoints, optimalPositionDisk};

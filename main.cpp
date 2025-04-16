@@ -45,22 +45,18 @@ int main() {
   std::vector<PointVector> I=clusters::Position(optional,ConvexHullMandatoryPoint);
 
   for(int i=0;i<I.size();++i){
-    if(I[i].empty()){
-      std::vector<PointVector>::iterator iter_i=I.begin()+i;
-      I.erase(iter_i);
-      std::vector<PointVector>::iterator iter_i_mandatory=mandatory.begin()+i;
-      mandatory.erase(iter_i_mandatory);
-    }
+    if(I[i].empty()) I[i].push_back(mandatory[i][0]);
     else continue;
   }
   
-  j=1;
-  for(auto el1:I){
-    std::cout<<"Position cluster "<<j<<std::endl;
-    for(auto el2:el1)std::cout<<el2<<std::endl;
-    ++j;
-  }
-  std::cout<<"End Position\n";
+  // j=1;
+  // for(auto el1:I){
+  //   std::cout<<"Position cluster "<<j<<std::endl;
+  //   for(auto el2:el1)std::cout<<el2<<std::endl;
+  //   ++j;
+  // }
+  // std::cout<<"End Position\n";
+
   auto [optimalCountCoveredPoints,optimalPositionDisks]=coverAlgorithm::GreedyAlgorithm(optional,I);
   std::cout<<optimalCountCoveredPoints<<std::endl;
 }

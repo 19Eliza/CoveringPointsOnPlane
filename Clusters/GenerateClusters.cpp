@@ -75,7 +75,7 @@ coveredPoints(PointSet pointSet, PointSet centerSet) {
 std::pair<PointVector,PointVector> ChooseRandomCountPoints(PointVector mandatoryCluster){
 
   auto countAllPoints=mandatoryCluster.size();
-  auto Q=countAllPoints-1;
+  auto Q=countAllPoints*0.85;
   std::random_device rd;  
   std::mt19937 gen(rd()); 
   std::uniform_int_distribution<> distrib(0, Q); 
@@ -208,7 +208,7 @@ std::vector<PointVector> Position(const PointSet &optional,
 
   }
     
-  std::cout<<"End!\n";
+  //std::cout<<"End!\n";
   return Pi;
 };
 
