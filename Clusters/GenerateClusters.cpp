@@ -2,18 +2,34 @@
 
 namespace clusters {
 
-std::pair<PointSet, std::vector<PointVector>> GenerateClusters() {
 
-  int n, m, l; // n-общее количество точек;
-               // m-количество обязательных кластеров;
-               // l-размер квадрата [0,l]*[0,l], в котором распределны точки
+  #include <iostream>
+  #include <tuple>
+  #include <limits>
+  
+  std::tuple<int, int, int> EnterParameters() {
+      int totalPointsNumber = 0;
+      int countClusters = 0;
+      int sizeSquare = 0;
+  
+      while (true) {
+          std::cout << "\nSeparated by a space enter total number of points, clusters count, size of square:\n";
+          std::cin >> totalPointsNumber >> countClusters >> sizeSquare;
+  
+          if (std::cin.fail() || sizeSquare <= 1) {
+              std::cin.clear(); 
+              std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+              std::cout << "Invalid input! Make sure to enter 3 numbers separated by a space and that size of square > 1.\n";
+          } else {
+              break; 
+          }
+      }
+  
+      return std::make_tuple(totalPointsNumber, countClusters, sizeSquare);
+  }
+  
 
-  std::cout << "\nEnter total count of points (N), count disk center for "
-               "mandatory clusters"
-               "points (m), size of square (l):\n";
-  std::cin >> n >> m >> l;
-
-  assert(std::cin.good());
+std::pair<PointSet, std::vector<PointVector>> GenerateClusters(int n, int m, int l) {
 
   auto [pointSet, centerSet] = GeneratePointsInSquare(n, m, l);
 
@@ -75,7 +91,7 @@ coveredPoints(PointSet pointSet, PointSet centerSet) {
 std::pair<PointVector,PointVector> ChooseRandomCountPoints(PointVector mandatoryCluster){
 
   auto countAllPoints=mandatoryCluster.size();
-  auto Q=countAllPoints*0.85;
+  auto Q=countAllPoints*0.8;
   std::random_device rd;  
   std::mt19937 gen(rd()); 
   std::uniform_int_distribution<> distrib(0, Q); 

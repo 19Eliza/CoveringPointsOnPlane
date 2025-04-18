@@ -7,8 +7,9 @@
 #include <vector>
 
 namespace clusters {
+std::tuple<int,int,int> EnterParameters();
 
-std::pair<PointSet, std::vector<PointVector>> GenerateClusters();
+std::pair<PointSet, std::vector<PointVector>> GenerateClusters(int n, int m, int l);
 std::pair<PointSet, PointSet> GeneratePointsInSquare(int n, int m, int l);
 
 std::pair<PointSet, std::vector<PointVector>> coveredPoints(PointSet pointSet,
