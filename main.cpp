@@ -81,7 +81,7 @@ int main() {
   QApplication a(argc, argv);
 
     PointWidget w;
-    w.setL(l);  // Устанавливаем значение l
+    w.setL(l); 
     w.setOptional(optional);
     w.setMandatory(mandatory);
 
