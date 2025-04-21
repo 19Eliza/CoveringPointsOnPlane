@@ -8,25 +8,39 @@ namespace clusters {
   #include <limits>
   
   std::tuple<int, int, int> EnterParameters() {
-      int totalPointsNumber = 0;
-      int countClusters = 0;
-      int sizeSquare = 0;
-  
-      while (true) {
-          std::cout << "\nSeparated by a space enter total number of points, clusters count, size of square:\n";
-          std::cin >> totalPointsNumber >> countClusters >> sizeSquare;
-  
-          if (std::cin.fail() || sizeSquare <= 1) {
-              std::cin.clear(); 
-              std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-              std::cout << "Invalid input! Make sure to enter 3 numbers separated by a space and that size of square > 1.\n";
-          } else {
-              break; 
-          }
-      }
-  
-      return std::make_tuple(totalPointsNumber, countClusters, sizeSquare);
-  }
+    int totalPointsNumber = 0;
+    int countClusters = 0;
+    int sizeSquare = 0;
+
+    while (true) {
+        std::cout << "\nSeparated by a space enter total number of points, clusters count, size of square:\n";
+        std::cin >> totalPointsNumber >> countClusters >> sizeSquare;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input! Make sure to enter 3 numbers separated by a space.\n";
+        }
+        else {
+            if (sizeSquare <= 1) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Invalid input! Size of square must be more than 1.\n";
+            }
+            else {
+                if (totalPointsNumber < countClusters) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Total number of points less than clusters count.\n";
+                }
+                else break;
+            }
+        }
+
+    }
+
+    return std::make_tuple(totalPointsNumber, countClusters, sizeSquare);
+}
   
 
 std::pair<PointSet, std::vector<PointVector>> GenerateClusters(int n, int m, int l) {
