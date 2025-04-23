@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QPainter>
 #include <QColor>
+#include <QMouseEvent>
 #include <vector>
 #include <set>
 #include"GeometryObjectsClass.h"
@@ -20,10 +21,13 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
     PointSet optional;
     std::vector<PointVector> mandatory; 
     int l = 100.0;  
+    int hoveredClusterIndex = -1;
+    QPoint lastMousePos;
 };
 

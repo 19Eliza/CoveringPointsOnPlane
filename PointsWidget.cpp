@@ -3,7 +3,7 @@
 #include <QColor>
 #include <cmath>
 
-PointWidget::PointWidget(QWidget *parent) : QWidget(parent) {}
+PointWidget::PointWidget(QWidget *parent) : QWidget(parent) {setMouseTracking(true);}
 
 void PointWidget::paintEvent(QPaintEvent* event) {
     Q_UNUSED(event);
@@ -78,4 +78,42 @@ void PointWidget::paintEvent(QPaintEvent* event) {
 
         colorIndex++;
     }
+
+    if (hoveredClusterIndex != -1) {
+        painter.setPen(Qt::black);
+        QFont font = painter.font();
+        font.setPointSize(10);
+        font.setBold(true);
+        painter.setFont(font);
+
+        painter.drawText(lastMousePos + QPoint(10, -10),
+                         QString("Cluster №%1").arg(hoveredClusterIndex+1));
+    }
 }
+
+void PointWidget::mouseMoveEvent(QMouseEvent* event) {
+    lastMousePos = event->pos();
+    hoveredClusterIndex = -1;
+
+    double w = width();
+    double h = height();
+    double scale = std::min(w, h) / l;
+
+    for (int i = 0; i < mandatory.size(); ++i) {
+        for (const Point& p : mandatory[i]) {
+            double x = p.SetX() * scale + 1;
+            double y = p.SetY() * scale + 1;
+            y = h - y;
+
+            QPointF point(x, y);
+            if (QLineF(point, event->pos()).length() < 5) {
+                hoveredClusterIndex = i;
+                update(); 
+                return;
+            }
+        }
+    }
+
+    update();
+}
+

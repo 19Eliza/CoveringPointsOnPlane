@@ -44,7 +44,6 @@ int main() {
   std::ofstream fout2{Optional};
   for(auto point :optional)fout2<<point;
 
-
   auto m = mandatory.size();
   std::vector<PointVector> ConvexHullMandatoryPoint(m);
   int j = 0;
@@ -63,15 +62,6 @@ int main() {
     if(I[i].empty()) I[i].push_back(mandatory[i][0]);
     else continue;
   }
-  
-  // j=1;
-  // for(auto el1:I){
-  //   std::cout<<"Position cluster "<<j<<std::endl;
-  //   for(auto el2:el1)std::cout<<el2<<std::endl;
-  //   ++j;
-  // }
-  // std::cout<<"End Position\n";
-
   auto [optimalCountCoveredPoints,optimalPositionDisks]=coverAlgorithm::GreedyAlgorithm(optional,I);
   std::cout<<optimalCountCoveredPoints<<std::endl;
 }
